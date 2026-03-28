@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Do you love me?</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial;
+        background: linear-gradient(135deg, #1faa59, #a8e063);
+    }
+
+    .card {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+        width: 300px;
+        position: relative;
+    }
+
+    .btn {
+        display: block;
+        margin: 10px auto;
+        padding: 12px;
+        border-radius: 30px;
+        border: none;
+        width: 80%;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .yes {
+        background: white;
+        color: black;
+    }
+
+    .no {
+        background: crimson;
+        color: white;
+        position: absolute;
+        transition: 0s;
+    }
+
+    .message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: white;
+        color: black;
+        padding: 30px;
+        border-radius: 20px;
+        font-size: 20px;
+        text-align: center;
+        transition: 0.3s;
+        z-index: 10;
+    }
+
+    .show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+</style>
+
+</head>
+<body>
+
+<div class="card" id="card">
+    <h2>❤️ 🤔 💕</h2>
+    <h2>Do you love me?</h2>
+
+    <button class="btn yes" id="yesBtn">Yes 😍</button>
+    <button class="btn no" id="noBtn">No 😢</button>
+</div>
+
+<div class="message" id="message">
+    ❤️ I love you too! ❤️
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+const message = document.getElementById("message");
+
+let scale = 1;
+
+// ضحكات 😆
+const laughs = ["😂", "🤣", "😹", "😆", "😜"];
+
+function moveNo() {
+    const cardRect = card.getBoundingClientRect();
+
+    const maxX = cardRect.width - noBtn.offsetWidth;
+    const maxY = cardRect.height - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // يضحك 😂
+    const randomLaugh = laughs[Math.floor(Math.random() * laughs.length)];
+    noBtn.textContent = randomLaugh;
+
+    // تكبير Yes عادي
+    scale += 0.1;
+    yesBtn.style.transform = "scale(" + scale + ")";
+}
+
+// يهرب ملي تقرب
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 100) {
+        moveNo();
+    }
+});
+
+// رسالة
+yesBtn.addEventListener("click", () => {
+    message.classList.add("show");
+});
+</script>
+
+</body>
+</html>
